@@ -4,10 +4,10 @@ import requests
 from sqlalchemy.orm import Session
 from datetime import timedelta
 
-import crud, models, schemas, security, auth
+import crud, models, schemas, security, auth, constantes
 from database import SessionLocal, engine
 
-from .constantes import SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 models.Base.metadata.create_all(bind=engine)
@@ -34,7 +34,7 @@ db: Session = Depends(get_db)):
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=constantes.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = security.create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
@@ -64,10 +64,35 @@ def read_user(
     """Mostra os dados do usuário"""
     return current_user
 
-@app.post("/users/{user_id}/favorite/", response_model=schemas.FavCharacter)
+@app.delete('/users/me/')
+def delete_user(current_user: schemas.User = Depends(auth.get_current_active_user), db: Session = Depends(get_db)):
+    """Deleta Usuário"""
+    return crud.delete_user(db=db, user_id=current_user.id)
+
+@app.post("/users/me/favorite/", response_model=schemas.FavCharacter)
 def add_fav_character(
     char: schemas.FavCharacterCreate, current_user: schemas.User = Depends(auth.get_current_active_user), 
     db: Session = Depends(get_db)
 ):
     """Adição de um Persnagem favorito para o usuário"""
     return crud.add_fav_character(db=db, char=char, user_id=current_user.id)
+
+@app.put("/users/me/favorite/", response_model=schemas.FavCharacter)
+def update_favorite_char(
+    char_id: int, char: schemas.FavCharacter, current_user: schemas.User = Depends(auth.get_current_active_user), db: Session = Depends(get_db)
+):
+    """Atualiza o personagem favorito do usuario"""
+    return crud.update_fav_character(db=db, char_id=char_id, char=char, owner_id=current_user.id )
+
+@app.delete("/users/me/favorite", response_model=schemas.FavCharacter)
+def delete_character(char_id: int,
+ current_user: schemas.User = Depends(auth.get_current_active_user),
+  db: Session = Depends(get_db)):
+    """Deleta Personagem Favorito"""
+    return crud.delete_fav_character(db=db, char_id=char_id, owner_id= current_user.id)
+
+@app.get("/favorites/", response_model=list[schemas.FavCharacter])
+def read_favorite_characters(db: Session = Depends(get_db)):
+    """Mostra a Lista de Personagens Favoritos"""
+    characters = crud.get_characters(db)
+    return characters
