@@ -96,3 +96,19 @@ def read_favorite_characters(db: Session = Depends(get_db)):
     """Mostra a Lista de Personagens Favoritos"""
     characters = crud.get_characters(db)
     return characters
+    
+@app.get("/characters/")
+def get_character(character_id:int):
+    """Consome a Swapi, mostrando os dados do persogem desejado"""
+    url = f'https://swapi.dev/api/people/{character_id}/'
+    r = requests.get(url)
+    dados = r.json()
+    return {"name" : dados['name'],
+            "height" : dados['height'],
+            "mass" : dados['mass'],
+            "hair_color" : dados['hair_color'],
+            "skin_color" : dados['skin_color'],
+            "eye_color" : dados['eye_color'],
+            "birth_year" : dados["birth_year"],
+            "gender" : dados["gender"]
+            }
