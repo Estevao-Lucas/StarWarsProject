@@ -1,0 +1,11 @@
+[run]
+omit = app/tests/__init__.py
+    app/main.py
+    app/schemas.py
+    app/database.py
+    app/security.py
+    app/__init__.py
+    app/crud.py
+    app/models.py
+    app/constantes.py
+    app/auth.py
