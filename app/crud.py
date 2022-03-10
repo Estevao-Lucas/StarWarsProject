@@ -1,5 +1,7 @@
 from fastapi import status, HTTPException
-import models, schemas
+
+from app import models, schemas
+
 from sqlalchemy.orm import Session
 
 def get_user(db: Session, user_id: int):
@@ -13,7 +15,6 @@ def get_user_by_username(db: Session, username: str):
 def get_users(db: Session):
     """Lista todos os Usuários"""
     return db.query(models.User).all()
-
 
 def create_user(db: Session, user: schemas.UserCreate):
     """Cria um Usuário"""
@@ -51,7 +52,8 @@ def add_fav_character(db: Session, char: schemas.FavCharacterCreate, user_id: in
 def update_fav_character(db: Session, char_id: int,
  char:schemas.FavCharacter, owner_id:int):
     """Atualiza o personagem favorito do Usuário"""
-    char_to_update = db.query(models.Character).filter(models.Character.id == char_id).first()
+    char_to_update = db.query(models.Character).filter(
+        models.Character.id == char_id).first()
     char_to_update.name = char.name
     char_to_update.height = char.height
     char_to_update.mass = char.mass
@@ -72,5 +74,5 @@ def delete_fav_character(db: Session, char_id: int, owner_id:int):
 
     db.delete(character_to_delete)
     db.commit()
-
     return character_to_delete
+

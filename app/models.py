@@ -1,7 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from database import Base
+from .database import Base
 
 class User(Base):
     __tablename__ = "users"
@@ -22,6 +22,7 @@ class Character(Base):
     skin_color = Column(String, index=True)
     eye_color = Column(String, index=True)
     gender = Column(String, index=True)
-    owner_id = Column(Integer, ForeignKey("users.id"))
+    owner_id = Column(ForeignKey("users.id"))
 
-    owner = relationship("User", backref="character")
+    owner = relationship("User", back_populates="favorite_char")
+

@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 from jose import jwt
 
-from constantes import ALGORITHM, SECRET_KEY
+from app import constantes
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -19,7 +19,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
         expire = datetime.utcnow() + timedelta(minutes=15)
 
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, constantes.SECRET_KEY, algorithm=constantes.ALGORITHM)
     return encoded_jwt 
 
 def verify_password(plain_password, hashed_password):

@@ -1,11 +1,15 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
 import requests
+
 from sqlalchemy.orm import Session
+
 from datetime import timedelta
 
-import crud, models, schemas, security, auth, constantes
-from database import SessionLocal, engine
+from app import crud, models, schemas, security, auth, constantes
+
+from .database import SessionLocal, engine
 
 
 
@@ -84,7 +88,7 @@ def update_favorite_char(
     """Atualiza o personagem favorito do usuario"""
     return crud.update_fav_character(db=db, char_id=char_id, char=char, owner_id=current_user.id )
 
-@app.delete("/users/me/favorite", response_model=schemas.FavCharacter)
+@app.delete("/users/me/favorite/", response_model=schemas.FavCharacter)
 def delete_character(char_id: int,
  current_user: schemas.User = Depends(auth.get_current_active_user),
   db: Session = Depends(get_db)):
@@ -96,7 +100,7 @@ def read_favorite_characters(db: Session = Depends(get_db)):
     """Mostra a Lista de Personagens Favoritos"""
     characters = crud.get_characters(db)
     return characters
-    
+
 @app.get("/characters/")
 def get_character(character_id:int):
     """Consome a Swapi, mostrando os dados do persogem desejado"""
