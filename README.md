@@ -99,3 +99,11 @@ Exemplo id: 1
   "birth_year": "19BBY",
   "gender": "male"
 }
+```
+***
+## 🛠 Testes
+* Para executar os testes utilize o comando ```docker-compose exec web pytest```
+* Para ver o coverage dos testes utilize o comando:
+*  ```docker-compose exec web pytest --cov-config=.coveragerc --cov=app app/tests/ ```
+* Para rotas com autenticação é necessário a substituição da palavra ```Token``` nos testes pelo Token de fato gerado com o login
+* Para rotas que necessitam de query-params é necessário a substituição do paramêtro
