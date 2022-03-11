@@ -9,11 +9,11 @@ API que realiza request para outra API de personagens de Starwars, criação de 
 * Docker .
 * Python.
 ## **Instruções**:
-* Clone este repositório ```git clone https://github.com/Estevao-Lucas/StarWarsProject.git```.
-* Crie seu ambiente virtual ```python -m venv ./venv```.
+* Clone este repositório ```git clone https://github.com/Estevao-Lucas/StarWarsProject.git```
+* Crie seu ambiente virtual ```python -m venv ./venv```
 * Ative seu ambiente virtual ```./venv/Scripts/activate(Windows)```
-* Entre na pasta StarWarsProject ```cd StarWarsProject/```.
-* Execute o comando ```docker-compose up```.
+* Entre na pasta StarWarsProject ```cd StarWarsProject/```
+* Execute o comando ```docker-compose up```
 * Feito isso sua aplicação estará rodando na porta :8000.
 
 ## 📕 Documentação:
@@ -26,6 +26,7 @@ API que realiza request para outra API de personagens de Starwars, criação de 
 * Methods : ```POST```
 * Action: method ```POST``` Geração de Token
 * Body, Header x-www-form-urlencoded: ```username:str```, ```password:str```.
+* OBS: ```Necessita de Cadastro prévio```
 ***
 * Endpoint : ```/users/```
 * Methods : ```GET, POST```
