@@ -10,8 +10,6 @@ API que realiza request para outra API de personagens de Starwars, criação de 
 * Python.
 ## **Instruções**:
 * Clone este repositório ```git clone https://github.com/Estevao-Lucas/StarWarsProject.git```
-* Crie seu ambiente virtual ```python -m venv ./venv```
-* Ative seu ambiente virtual ```./venv/Scripts/activate(Windows)```
 * Entre na pasta StarWarsProject ```cd StarWarsProject/```
 * Execute o comando ```docker-compose up```
 * Feito isso sua aplicação estará rodando na porta :8000.
